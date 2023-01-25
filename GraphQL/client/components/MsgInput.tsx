@@ -1,9 +1,19 @@
-import { useRef } from "react";
+import { FormEvent, useRef } from "react";
+import { Mutate } from "../types";
 
-const MsgInput = ({ mutate, text = "", id = undefined }) => {
-  const textRef = useRef(null);
+const MsgInput = ({
+  mutate,
+  text = "",
+  id = undefined,
+}: {
+  mutate: Mutate;
+  text?: string;
+  id?: string;
+}) => {
+  const textRef = useRef<HTMLTextAreaElement>(null);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: FormEvent) => {
+    if (!textRef.current) return;
     e.preventDefault();
     e.stopPropagation();
     const text = textRef.current.value;

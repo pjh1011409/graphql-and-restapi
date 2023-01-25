@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useQueryClient, useMutation, useInfiniteQuery } from "react-query";
 import MsgItem from "./MsgItem";
 import MsgInput from "./MsgInput";
+import Link from "next/link";
 import {
   QueryKeys,
   fetcher,
@@ -16,23 +17,26 @@ import {
   DELETE_MESSAGE,
 } from "../graphql/message";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { Message, MsgQueryData, Users } from "../types";
 
-const MsgList = ({ smsgs }) => {
+const MsgList = ({ smsgs }: { smsgs: Message[] }) => {
   const client = useQueryClient();
   const { query } = useRouter();
-  const userId = query.userId || query.userid || "";
+  const userId = (query.userId || query.userid || "") as string;
   const [msgs, setMsgs] = useState([{ messages: smsgs }]);
-  const [editingId, setEditingId] = useState(null);
-  const fetchMoreEl = useRef(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const fetchMoreEl = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScroll(fetchMoreEl);
 
   const { mutate: onCreate } = useMutation(
-    ({ text }) => fetcher(CREATE_MESSAGE, { text, userId }),
+    ({ text }: { text: string }) => fetcher(CREATE_MESSAGE, { text, userId }),
     {
       onSuccess: ({ createMessage }) => {
-        client.setQueryData(QueryKeys.MESSAGES, (old) => {
+        client.setQueryData<MsgQueryData>(QueryKeys.MESSAGES, (old) => {
+          if (!old)
+            return { pages: [{ messages: [createMessage] }], pageParams: "" };
           return {
-            pageParam: old.pageParam,
+            pageParams: old.pageParams,
             pages: [
               { messages: [createMessage, ...old.pages[0].messages] },
               ...old.pages.slice(1),
@@ -44,11 +48,14 @@ const MsgList = ({ smsgs }) => {
   );
 
   const { mutate: onUpdate } = useMutation(
-    ({ text, id }) => fetcher(UPDATE_MESSAGE, { text, id, userId }),
+    ({ text, id }: { text: string; id?: string }) =>
+      fetcher(UPDATE_MESSAGE, { text, id, userId }),
     {
       onSuccess: ({ updateMessage }) => {
         doneEdit();
-        client.setQueryData(QueryKeys.MESSAGES, (old) => {
+        client.setQueryData<MsgQueryData>(QueryKeys.MESSAGES, (old) => {
+          if (!old) return { pages: [{ messages: [] }], pageParams: "" };
+
           const { pageIndex, msgIndex } = findTargetMsgIndex(
             old.pages,
             updateMessage.id
@@ -63,10 +70,11 @@ const MsgList = ({ smsgs }) => {
   );
 
   const { mutate: onDelete } = useMutation(
-    (id) => fetcher(DELETE_MESSAGE, { id, userId }),
+    (id: string) => fetcher(DELETE_MESSAGE, { id, userId }),
     {
       onSuccess: ({ deleteMessage: deletedId }) => {
-        client.setQueryData(QueryKeys.MESSAGES, (old) => {
+        client.setQueryData<MsgQueryData>(QueryKeys.MESSAGES, (old) => {
+          if (!old) return { pages: [{ messages: [] }], pageParams: "" };
           const { pageIndex, msgIndex } = findTargetMsgIndex(
             old.pages,
             deletedId
@@ -109,6 +117,15 @@ const MsgList = ({ smsgs }) => {
 
   return (
     <>
+      <Link href="/">
+        <button>Home</button>
+      </Link>
+      <Link href={`?userId=roy`}>
+        <button>Roy로 작성</button>
+      </Link>
+      <Link href={`?userId=jay`}>
+        <button>Jay로 작성</button>
+      </Link>
       {userId && <MsgInput mutate={onCreate} />}
       <ul className="messages">
         {msgs.map(({ messages }, pageIndex) =>

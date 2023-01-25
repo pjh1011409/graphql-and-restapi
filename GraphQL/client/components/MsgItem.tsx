@@ -1,8 +1,21 @@
+import { Mutate, User } from "../types";
 import MsgInput from "./MsgInput";
+
+interface MsgItemProps {
+  id: string;
+  timestamp: number;
+  text: string;
+  myId: string;
+  user: User;
+  isEditing: boolean;
+  onUpdate: Mutate;
+  startEdit: () => void;
+  onDelete: () => void;
+  userId: string;
+}
 
 const MsgItem = ({
   id,
-  userId,
   timestamp,
   text,
   onUpdate,
@@ -11,10 +24,11 @@ const MsgItem = ({
   startEdit,
   myId,
   user,
-}) => (
+  userId,
+}: MsgItemProps) => (
   <li className="messages__item">
     <h3>
-      {user.nickname}{" "}
+      {userId}
       <sub>
         {new Date(timestamp).toLocaleString("ko-KR", {
           year: "numeric",

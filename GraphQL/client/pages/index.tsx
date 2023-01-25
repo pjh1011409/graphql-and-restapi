@@ -1,8 +1,9 @@
 import MsgList from "../components/MsgList";
 import { fetcher } from "../queryClient";
 import { GET_MESSAGES } from "../graphql/message";
+import { Message } from "../types";
 
-const Home = ({ smsgs }) => (
+const Home = ({ smsgs }: { smsgs: Message[] }) => (
   <>
     <h1>SIMPLE SNS</h1>
     <MsgList smsgs={smsgs} />

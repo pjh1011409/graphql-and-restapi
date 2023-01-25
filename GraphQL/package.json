@@ -5,11 +5,14 @@
   "repository": "https://github.com/pjh1011409/graphql-and-restapi.git",
   "author": "ParkJeongHo <pjh31208@naver.com>",
   "license": "MIT",
-  "private": "true",
+  "private": true,
   "workspaces": [
     "client",
     "server"
   ],
+  "devDependencies": {
+    "typescript": "^4.9.4"
+  },
   "scripts": {
     "client": "yarn workspace client start",
     "server": "yarn workspace server start"

@@ -1,9 +1,10 @@
 import { v4 } from "uuid";
-import { writeDB } from "../dbController.js";
+import { writeDB } from "../dbController";
+import { DBField, Message, Resolver } from "../types";
 
-const setMsgs = (data) => writeDB("messages", data);
+const setMsgs = (data: Message[]) => writeDB(DBField.MESSAGES, data);
 
-const messageResolver = {
+const messageResolver: Resolver = {
   Query: {
     messages: (parent, { cursor = "" }, { db }) => {
       const fromIndex = db.messages.findIndex((msg) => msg.id === cursor) + 1;
@@ -46,6 +47,9 @@ const messageResolver = {
       setMsgs(db.messages);
       return id;
     },
+  },
+  Message: {
+    user: (msg, args, { db }) => db.users[msg.userId],
   },
 };
 
