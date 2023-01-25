@@ -20,6 +20,7 @@
     "webpack": "^5.75.0"
   },
   "scripts": {
-    "start": "next"
+    "start": "next",
+    "build": "next build"
   }
 }
