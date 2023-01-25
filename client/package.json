@@ -19,11 +19,11 @@
   "devDependencies": {
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "gh-pages": "^5.0.0",
     "webpack": "^5.75.0"
   },
   "scripts": {
     "start": "next",
-    "deploy": "cp build/index.html build/404.html && gh-pages -d build",
-    "build": "next build"
+    "deploy": "next build && next export && touch out/.nojekyll"
   }
 }
