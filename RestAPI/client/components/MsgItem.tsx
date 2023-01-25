@@ -1,20 +1,31 @@
 import MsgInput from "./MsgInput";
+import { User } from "../types";
 
+interface MsgItemProps {
+  id: string;
+  timestamp: number;
+  text: string;
+  isEditing: boolean;
+  myId: string;
+  user: User;
+  onUpdate: (text: string, id?: string) => void;
+  onDelete: () => void;
+  startEdit: () => void;
+}
 const MsgItem = ({
   id,
-  userId,
   timestamp,
   text,
-  onUpdate,
-  onDelete,
   isEditing,
-  startEdit,
   myId,
   user,
-}) => (
+  onUpdate,
+  onDelete,
+  startEdit,
+}: MsgItemProps) => (
   <li className="messages__item">
     <h3>
-      {userId}
+      {user.nickname}
       <sub>
         {new Date(timestamp).toLocaleString("ko-KR", {
           year: "numeric",
@@ -35,7 +46,7 @@ const MsgItem = ({
       text
     )}
 
-    {myId === userId && (
+    {myId === user.id && (
       <div className="messages__buttons">
         <button onClick={startEdit}>수정</button>
         <button onClick={onDelete}>삭제</button>

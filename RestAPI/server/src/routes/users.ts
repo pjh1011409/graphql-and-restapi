@@ -1,10 +1,11 @@
-import { readDB } from "../dbController.js";
+import { readDB } from "../dbController";
+import { DBField, CustomRoute, Users, METHOD } from "../types";
 
-const getUsers = () => readDB("users");
+const getUsers = (): Users => readDB(DBField.USERS);
 
-const usersRoute = [
+const usersRoute: CustomRoute[] = [
   {
-    method: "get",
+    method: METHOD.GET,
     route: "/users",
     handler: (req, res) => {
       const users = getUsers();
@@ -12,7 +13,7 @@ const usersRoute = [
     },
   },
   {
-    method: "get",
+    method: METHOD.GET,
     route: "/users/:id",
     handler: ({ params: { id } }, res) => {
       try {
