@@ -1,5 +1,4 @@
-import { writeDB } from "../dbController";
-import { DBField, Message, Resolver } from "../types";
+import { Resolver } from "../types";
 import { db } from "../firebase";
 import {
   addDoc,

@@ -20,8 +20,8 @@ import env from "./envLoader";
     path: "/graphql",
     cors: {
       origin: [
-        "http://localhost:3000",
-        // "https://graphql-blog.vercel.app/"
+        // "http://localhost:3000",
+        "https://graphql-and-restapi-client.vercel.app/",
         "https://studio.apollographql.com",
       ],
       credentials: true,
