@@ -6,7 +6,7 @@ export const GET_MESSAGES = gql`
       id
       text
       userId
-      timestamp
+      createdAt
     }
   }
 `;
@@ -17,7 +17,7 @@ export const GET_MESSAGE = gql`
       id
       text
       userId
-      timestamp
+      createdAt
     }
   }
 `;
@@ -28,7 +28,7 @@ export const CREATE_MESSAGE = gql`
       id
       text
       userId
-      timestamp
+      createdAt
     }
   }
 `;
@@ -39,13 +39,13 @@ export const UPDATE_MESSAGE = gql`
       id
       text
       userId
-      timestamp
+      createdAt
     }
   }
 `;
 
 export const DELETE_MESSAGE = gql`
-  mutation DELETE_MESSAGE($id: ID!, $userId: ID!) {
-    deleteMessage(id: $id, userId: $userId)
+  mutation DELETE_MESSAGE($id: ID!) {
+    deleteMessage(id: $id)
   }
 `;
