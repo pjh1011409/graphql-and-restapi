@@ -1,4 +1,5 @@
 {
+  "homepage": "https://pjh1011409.github.io/graphql-and-restapi/",
   "name": "client",
   "version": "1.0.0",
   "main": "index.js",
@@ -6,6 +7,7 @@
   "dependencies": {
     "axios": "^1.2.2",
     "dayjs": "^1.11.7",
+    "gh-pages": "^5.0.0",
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "graphql-tag": "^2.12.6",
@@ -22,6 +24,6 @@
   },
   "scripts": {
     "start": "next",
-    "build": "next build"
+    "deploy": "next build && next export && touch out/.nojekyll && git add -f out/ && git commit -m 'deploy to gh-pages' && git subtree push --prefix out origin gh-pages"
   }
 }

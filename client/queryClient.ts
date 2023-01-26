@@ -2,8 +2,8 @@ import { request, RequestDocument } from "graphql-request";
 import { DocumentNode } from "graphql/language/ast";
 import { Message, MsgQueryData } from "./types";
 
-// const URL = "http://localhost:8000/graphql";
-const URL = "https://graphql-blog.herokuapp.com";
+const URL = "http://localhost:8000/graphql";
+// const URL = "https://graphql-blog.herokuapp.com";
 
 export const fetcher = (
   query: RequestDocument,
