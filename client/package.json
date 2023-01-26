@@ -1,5 +1,4 @@
 {
-  "homepage": "https://pjh1011409.github.io/graphql-and-restapi/",
   "name": "client",
   "version": "1.0.0",
   "main": "index.js",
@@ -24,6 +23,6 @@
   },
   "scripts": {
     "start": "next",
-    "deploy": "next build && next export && touch out/.nojekyll"
+    "vercel-deploy": "next build && next export"
   }
 }
