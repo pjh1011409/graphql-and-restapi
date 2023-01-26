@@ -26,8 +26,8 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-App.getInitialProps = async ({ ctx, Component }) => {
-  const pageProps = await Component.getInitialProps?.(ctx);
+App.getStaticProps = async ({ ctx, Component }) => {
+  const pageProps = await Component.getStaticProps?.(ctx);
   return { pageProps };
 };
 
