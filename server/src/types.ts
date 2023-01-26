@@ -7,14 +7,17 @@ export interface Message {
   id: string;
   text: string;
   userId: string;
-  timestamp: number;
+  createdAt: number;
 }
+
+export type Messages = Message[];
 
 export interface User {
   id: string;
   nickname: string;
 }
 
+export type Users = User[];
 export interface Resolver {
   [key: string]: {
     [key: string]: (
@@ -22,8 +25,8 @@ export interface Resolver {
       variables: { [key: string]: any },
       context: {
         db: {
-          messages: Message[];
-          users: { [key: string]: User };
+          messages: Messages;
+          users: Users;
         };
       }
     ) => any;

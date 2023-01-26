@@ -4,18 +4,17 @@ const messageSchema = gql`
   type Message {
     id: ID!
     text: String!
-    userId: ID!
-    user: User!
-    timestamp: Float #13자리 숫자
+    userId: String!
+    createdAt: Float #13자리 숫자
   }
   extend type Query {
-    messages(cursor: ID): [Message!]! # getMessages
+    messages(cursor: ID): [Message!] # getMessages
     message(id: ID!): Message! # getMessage
   }
   extend type Mutation {
     createMessage(text: String!, userId: ID!): Message!
     updateMessage(id: ID!, text: String!, userId: ID!): Message!
-    deleteMessage(id: ID!, userId: ID!): ID!
+    deleteMessage(id: ID!): ID!
   }
 `;
 
