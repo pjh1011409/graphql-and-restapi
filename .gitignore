@@ -20,5 +20,4 @@ dist-ssr
 *.local
 .env
 .env.*
-
-/server/firbase.js
+tsconfig.tsbuildinfo
