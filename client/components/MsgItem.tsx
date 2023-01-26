@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { Mutate, User } from "../types";
 import MsgInput from "./MsgInput";
 
@@ -29,16 +30,7 @@ const MsgItem = ({
   <li className="messages__item">
     <h3>
       {userId}
-      <sub>
-        {new Date(timestamp).toLocaleString("ko-KR", {
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        })}
-      </sub>
+      <sub>{`${dayjs(timestamp).format("YYYY-MM-DD HH:mm")}`}</sub>
     </h3>
 
     {isEditing ? (
