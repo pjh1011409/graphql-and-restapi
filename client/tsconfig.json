@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "skipLibCheck": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -18,13 +14,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "strict": true,
-    "incremental": true
+    "incremental": true,
+    "jsxImportSource": "@emotion/react"
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+
+  "include": ["**/*.ts", "**/*.tsx", "types"],
+  "exclude": ["node_modules", ".next", "out"]
 }
