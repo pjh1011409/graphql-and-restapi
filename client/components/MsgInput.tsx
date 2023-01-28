@@ -1,15 +1,21 @@
 import { FormEvent, useRef } from "react";
 import { Mutate } from "../types";
+import React from "react";
+import Input from "../components/common/Input";
+import Button from "./common/Button";
+import tw from "twin.macro";
 
-const MsgInput = ({
-  mutate,
-  text = "",
-  id = undefined,
-}: {
+const styles = {
+  InputLayout: [tw`justify-center flex`],
+};
+
+interface MsgInputProps {
   mutate: Mutate;
   text?: string;
   id?: string;
-}) => {
+}
+
+const MsgInput = ({ mutate, text = "", id = undefined }: MsgInputProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null);
 
   const onSubmit = (e: FormEvent) => {
@@ -22,13 +28,14 @@ const MsgInput = ({
   };
 
   return (
-    <form className="messages__input" onSubmit={onSubmit}>
-      <textarea
+    <form css={styles.InputLayout} onSubmit={onSubmit}>
+      <Input
+        variant="Create"
         ref={textRef}
         defaultValue={text}
-        placeholder="내용을 입력하세요."
+        placeholder="Enter your content..."
       />
-      <button type="submit">완료</button>
+      <Button variant="Submit">POST</Button>
     </form>
   );
 };

@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Hydrate } from "react-query/hydration";
-import "./index.scss";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Loading } from "../components/common/Loading";
 
 const App = ({ Component, pageProps }) => {
   const clientRef = useRef(null);
@@ -18,16 +19,19 @@ const App = ({ Component, pageProps }) => {
   };
 
   return (
-    <QueryClientProvider client={getClient()}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
-      </Hydrate>
-    </QueryClientProvider>
+    <ChakraProvider>
+      <QueryClientProvider client={getClient()}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Loading />
+          <Component {...pageProps} />
+        </Hydrate>
+      </QueryClientProvider>
+    </ChakraProvider>
   );
 };
 
-App.getInitialProps = async ({ ctx, Component }) => {
-  const pageProps = await Component.getInitialProps?.(ctx);
+App.getServerSideProps = async ({ ctx, Component }) => {
+  const pageProps = await Component.getServerSideProps?.(ctx);
   return { pageProps };
 };
 

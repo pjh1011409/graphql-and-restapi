@@ -1,7 +1,20 @@
 import dayjs from "dayjs";
 import { Mutate, User } from "../types";
 import MsgInput from "./MsgInput";
+import React from "react";
+import tw, { css } from "twin.macro";
+import Button from "./common/Button";
 
+const styles = {
+  postCard: [
+    tw`list-none my-3 border-2 border-black rounded-xl p-3`,
+    css`
+      width: 350px;
+      box-shadow: 5px 5px 3px 3px gray;
+    `,
+  ],
+  User: [tw`text-lg font-bold mr-1`],
+};
 interface MsgItemProps {
   id: string;
   timestamp: number;
@@ -27,11 +40,11 @@ const MsgItem = ({
   user,
   userId,
 }: MsgItemProps) => (
-  <li className="messages__item">
-    <h3>
-      {userId}
+  <li css={styles.postCard}>
+    <div css={tw`flex items-center`}>
+      <div css={styles.User}>{userId}</div>
       <sub>{`${dayjs(timestamp).format("YYYY-MM-DD HH:mm")}`}</sub>
-    </h3>
+    </div>
 
     {isEditing ? (
       <>
@@ -43,8 +56,12 @@ const MsgItem = ({
 
     {myId === userId && (
       <div className="messages__buttons">
-        <button onClick={startEdit}>수정</button>
-        <button onClick={onDelete}>삭제</button>
+        <Button variant="CardBtn" onClick={startEdit}>
+          Update
+        </Button>
+        <Button variant="CardBtn" onClick={onDelete}>
+          Delete
+        </Button>
       </div>
     )}
   </li>

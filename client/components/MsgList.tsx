@@ -1,105 +1,34 @@
+import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { useQueryClient, useMutation, useInfiniteQuery } from "react-query";
 import MsgItem from "./MsgItem";
 import MsgInput from "./MsgInput";
-import Link from "next/link";
-import {
-  QueryKeys,
-  fetcher,
-  findTargetMsgIndex,
-  getNewMessages,
-} from "../queryClient";
-import {
-  GET_MESSAGES,
-  CREATE_MESSAGE,
-  UPDATE_MESSAGE,
-  DELETE_MESSAGE,
-} from "../graphql/message";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
-import { Message, MsgQueryData, Users } from "../types";
+import { Message } from "../types";
+import tw from "twin.macro";
+import {
+  useGetMessage,
+  useCreateMessage,
+  useUpdateMessage,
+  useDeleteMessage,
+} from "../hooks";
+
+const styles = {
+  ListLayout: [tw`grid justify-center `],
+};
 
 const MsgList = ({ smsgs }: { smsgs: Message[] }) => {
-  const client = useQueryClient();
   const { query } = useRouter();
   const userId = (query.userId || query.userid || "") as string;
   const [msgs, setMsgs] = useState([{ messages: smsgs }]);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  // const [editingId, setEditingId] = useState<string | null>(null);
   const fetchMoreEl = useRef<HTMLDivElement>(null);
   const intersecting = useInfiniteScroll(fetchMoreEl);
 
-  const { mutate: onCreate } = useMutation(
-    ({ text }: { text: string }) => fetcher(CREATE_MESSAGE, { text, userId }),
-    {
-      onSuccess: ({ createMessage }) => {
-        client.setQueryData<MsgQueryData>(QueryKeys.MESSAGES, (old) => {
-          if (!old)
-            return { pages: [{ messages: [createMessage] }], pageParams: "" };
-          return {
-            pageParams: old.pageParams,
-            pages: [
-              { messages: [createMessage, ...old.pages[0].messages] },
-              ...old.pages.slice(1),
-            ],
-          };
-        });
-      },
-    }
-  );
-
-  const { mutate: onUpdate } = useMutation(
-    ({ text, id }: { text: string; id?: string }) =>
-      fetcher(UPDATE_MESSAGE, { text, id, userId }),
-    {
-      onSuccess: ({ updateMessage }) => {
-        doneEdit();
-        client.setQueryData<MsgQueryData>(QueryKeys.MESSAGES, (old) => {
-          if (!old) return { pages: [{ messages: [] }], pageParams: "" };
-
-          const { pageIndex, msgIndex } = findTargetMsgIndex(
-            old.pages,
-            updateMessage.id
-          );
-          if (pageIndex < 0 || msgIndex < 0) return old;
-          const newMsgs = getNewMessages(old);
-          newMsgs.pages[pageIndex].messages.splice(msgIndex, 1, updateMessage);
-          return newMsgs;
-        });
-      },
-    }
-  );
-
-  const { mutate: onDelete } = useMutation(
-    (id: string) => fetcher(DELETE_MESSAGE, { id, userId }),
-    {
-      onSuccess: ({ deleteMessage: deletedId }) => {
-        client.setQueryData<MsgQueryData>(QueryKeys.MESSAGES, (old) => {
-          if (!old) return { pages: [{ messages: [] }], pageParams: "" };
-          const { pageIndex, msgIndex } = findTargetMsgIndex(
-            old.pages,
-            deletedId
-          );
-          if (pageIndex < 0 || msgIndex < 0) return old;
-
-          const newMsgs = getNewMessages(old);
-          newMsgs.pages[pageIndex].messages.splice(msgIndex, 1);
-          return newMsgs;
-        });
-      },
-    }
-  );
-
-  const doneEdit = () => setEditingId(null);
-
-  const { data, error, isError, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    QueryKeys.MESSAGES,
-    ({ pageParam = "" }) => fetcher(GET_MESSAGES, { cursor: pageParam }),
-    {
-      getNextPageParam: ({ messages }) => {
-        return messages?.[messages.length - 1]?.id;
-      },
-    }
-  );
+  const { data, error, isError, fetchNextPage, hasNextPage } = useGetMessage();
+  const { onCreate } = useCreateMessage();
+  const { editingId, setEditingId, onUpdate } = useUpdateMessage();
+  const { onDelete } = useDeleteMessage();
 
   useEffect(() => {
     if (!data?.pages) return;
@@ -117,17 +46,8 @@ const MsgList = ({ smsgs }: { smsgs: Message[] }) => {
 
   return (
     <>
-      <Link href="/">
-        <button>Home</button>
-      </Link>
-      <Link href={`?userId=roy`}>
-        <button>Roy로 작성</button>
-      </Link>
-      <Link href={`?userId=jay`}>
-        <button>Jay로 작성</button>
-      </Link>
       {userId && <MsgInput mutate={onCreate} />}
-      <ul className="messages">
+      <ul css={styles.ListLayout}>
         {msgs.map(({ messages }, pageIndex) =>
           messages.map((x) => (
             <MsgItem
