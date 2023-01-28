@@ -49,6 +49,7 @@ const messageResolver: Resolver = {
   Mutation: {
     createMessage: async (parent, { text, userId }) => {
       if (!userId) throw Error("사용자가 없습니다.");
+      if (!text) throw Error("입력한 텍스트가 없습니다.");
       const newMsg = {
         text,
         userId,
