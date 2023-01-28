@@ -77,7 +77,7 @@
 
 ## 💻 Service Architecture
 
-<img width="1017" alt="스크린샷 2023-01-25 오후 6 22 23" src="https://user-images.githubusercontent.com/81337674/214525837-23e5575b-b798-43de-8afc-3ea6e71b2f74.png">
+<img width="1022" alt="스크린샷 2023-01-28 오후 7 20 41" src="https://user-images.githubusercontent.com/81337674/215261387-07b2377d-eaad-48a9-9ee6-55c91ed0f95b.png">
 
 <br>
 
