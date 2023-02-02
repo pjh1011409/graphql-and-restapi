@@ -62,7 +62,7 @@
 
 - **Infinite Scroll**
 
-  - 효율적인 데이터 패칭으로 사용자 경험을 높이는 기술을 구현하는 연습.
+  - 효율적인 데이터 패칭 구현.
     - 방법 1. useInfiniteScroll + Intersection Observer API
     - 방법 2. useInfiniteScroll + React Infinite Scroller
 
