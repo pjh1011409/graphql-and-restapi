@@ -13,18 +13,19 @@
 ## 🗓 프로젝트 기간
 
 2023.01.13 ~ 2023.01.28
+
 <br>
 
 ## 📎 Link
 
 **Notion**
 👉 [Notion Portfolio](https://www.notion.so/API-Practice-33a84c2d694947f68872ba74341911b5)
+
 <br>
 
 ## 🍀 나의 개발일지
 
-<details>
-<summary>✏️ 프로젝트를 개발하며 작성한 개발블로그입니다.</summary>
+✏️ 프로젝트를 개발하며 작성한 개발블로그입니다.
 
 - [REST API vs GraphQL](https://velog.io/@pjh1011409/REST-API-vs-GraphQL)
 - [REST API 통신](https://velog.io/@pjh1011409/REST-API-%ED%86%B5%EC%8B%A0)
@@ -36,7 +37,7 @@
 - [React Query - Hydration(SSR)](https://velog.io/@pjh1011409/React-Query-HydrationSSR)
 - [React Query - 사용자 경험 개선 UI](https://velog.io/@pjh1011409/React-Query-Global-Setting)
 
-</details>
+
  
   
 <br>
